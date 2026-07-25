@@ -1,7 +1,8 @@
-// Prisma schema — MySQL.
+// Prisma schema — PostgreSQL.
 //
-// MySQL is deliberate: it runs on Hostinger shared hosting, cPanel, PlanetScale
-// and every cheap host, which keeps the template deployable by any buyer.
+// Postgres runs on Vercel Postgres (Neon), Supabase, Railway and most hosts.
+// The schema is otherwise portable: only @db.VarChar/@db.Text native types and
+// a native enum are used, all supported by Postgres.
 //
 // All money is stored in kobo (integer minor units). ₦415,000.00 is 41500000.
 // Never floats — no rounding drift, and it matches what Paystack expects.
@@ -11,7 +12,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
