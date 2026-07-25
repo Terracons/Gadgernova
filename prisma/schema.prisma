@@ -1,0 +1,145 @@
+// Prisma schema — MySQL.
+//
+// MySQL is deliberate: it runs on Hostinger shared hosting, cPanel, PlanetScale
+// and every cheap host, which keeps the template deployable by any buyer.
+//
+// All money is stored in kobo (integer minor units). ₦415,000.00 is 41500000.
+// Never floats — no rounding drift, and it matches what Paystack expects.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(120)
+  slug        String    @unique @db.VarChar(140)
+  description String?   @db.Text
+  position    Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  products    Product[]
+
+  @@index([slug])
+  @@map("categories")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  slug        String   @unique @db.VarChar(280)
+  sku         String?  @db.VarChar(64)
+  brand       String?  @db.VarChar(80)
+  description String?  @db.Text
+
+  // Kobo.
+  price          Int  @default(0)
+  compareAtPrice Int?
+
+  stock     Int    @default(0)
+  condition String @default("Used") @db.VarChar(40)
+
+  // Spec badges shown on product cards. Blank ones are hidden.
+  specDisplay   String? @db.VarChar(60)
+  specProcessor String? @db.VarChar(80)
+  specRam       String? @db.VarChar(40)
+  specStorage   String? @db.VarChar(60)
+
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  images     ProductImage[]
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive, isFeatured])
+  @@index([categoryId])
+  @@index([sku])
+  @@map("products")
+}
+
+model ProductImage {
+  id         Int    @id @default(autoincrement())
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Full public URL (R2/S3 or local).
+  url        String  @db.VarChar(500)
+  // Object key, kept so the file can be deleted later.
+  storageKey String? @db.VarChar(500)
+  alt        String? @db.VarChar(255)
+  position   Int     @default(0)
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model Order {
+  id        Int    @id @default(autoincrement())
+  reference String @unique @db.VarChar(64)
+
+  customerName    String  @db.VarChar(160)
+  customerEmail   String  @db.VarChar(200)
+  customerPhone   String  @db.VarChar(40)
+  shippingAddress String  @db.Text
+  city            String? @db.VarChar(120)
+  state           String? @db.VarChar(120)
+  note            String? @db.Text
+
+  // Kobo.
+  subtotal    Int @default(0)
+  shippingFee Int @default(0)
+  total       Int @default(0)
+
+  status           OrderStatus @default(PENDING)
+  paymentReference String?     @db.VarChar(120)
+  paidAt           DateTime?
+
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([reference])
+  @@index([status])
+  @@index([customerEmail])
+  @@map("orders")
+}
+
+model OrderItem {
+  id      Int   @id @default(autoincrement())
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId Int?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  // Title and price are snapshotted: products change, past orders must not.
+  title     String @db.VarChar(255)
+  unitPrice Int
+  quantity  Int    @default(1)
+
+  @@index([orderId])
+  @@map("order_items")
+}

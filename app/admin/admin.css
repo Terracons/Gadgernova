@@ -1,0 +1,330 @@
+/*
+ * Admin panel styles.
+ *
+ * Dark theme derived from the brand colours in store.config.ts, which the
+ * admin layout injects as --admin-* variables.
+ */
+
+.admin-body {
+  --a-bg: #070e20;
+  --a-panel: var(--dark, #0b193c);
+  --a-panel-2: #12244f;
+  --a-line: #1e356b;
+  --a-text: #e8edf8;
+  --a-muted: #93a3c4;
+  --a-accent: var(--primary, #0266fc);
+  --a-accent-2: var(--primary-dark, #014bde);
+  --a-good: #2ecc8f;
+  --a-warn: #f5a623;
+  --a-bad: #ff5c5c;
+
+  background: var(--a-bg);
+  color: var(--a-text);
+  min-height: 100vh;
+  font-size: 15px;
+}
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--a-panel);
+  border-right: 1px solid var(--a-line);
+  padding: 20px 0;
+}
+.admin-brand {
+  font-weight: 800;
+  font-size: 18px;
+  padding: 0 20px 2px;
+  letter-spacing: -0.4px;
+}
+.admin-brand em {
+  color: var(--a-accent);
+  font-style: normal;
+}
+.admin-tag {
+  padding: 0 20px 18px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--a-accent);
+}
+.admin-nav a,
+.admin-nav button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 20px;
+  color: var(--a-muted);
+  font: inherit;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.admin-nav a:hover,
+.admin-nav button:hover {
+  background: var(--a-panel-2);
+  color: var(--a-text);
+}
+.admin-nav .sep {
+  margin: 14px 20px 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5c6c93;
+}
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  padding: 26px 30px 60px;
+}
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.admin-main h1 {
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: -0.3px;
+  color: var(--a-text);
+}
+.admin-main h2 {
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: var(--a-text);
+}
+
+.a-card {
+  background: var(--a-panel);
+  border: 1px solid var(--a-line);
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.a-grid {
+  display: grid;
+  gap: 14px;
+}
+.a-grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+.a-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.a-stat .label {
+  color: var(--a-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.a-stat .value {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.admin-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.admin-body th,
+.admin-body td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--a-line);
+  vertical-align: middle;
+}
+.admin-body th {
+  color: var(--a-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.admin-body tr:last-child td {
+  border-bottom: none;
+}
+.a-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--a-panel-2);
+}
+
+.admin-body input,
+.admin-body select,
+.admin-body textarea {
+  width: 100%;
+  padding: 9px 11px;
+  background: var(--a-panel-2);
+  color: var(--a-text);
+  border: 1px solid var(--a-line);
+  border-radius: 8px;
+  font: inherit;
+}
+.admin-body input:focus,
+.admin-body select:focus,
+.admin-body textarea:focus {
+  outline: none;
+  border-color: var(--a-accent);
+  box-shadow: none;
+}
+.admin-body label {
+  color: var(--a-muted);
+  font-size: 13px;
+}
+.a-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.a-check input {
+  width: auto;
+}
+.a-check label {
+  margin: 0;
+  color: var(--a-text);
+}
+
+.a-btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--a-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+}
+.a-btn:hover {
+  background: var(--a-accent-2);
+}
+.a-btn.ghost {
+  background: transparent;
+  border: 1px solid var(--a-line);
+  color: var(--a-text);
+}
+.a-btn.ghost:hover {
+  background: var(--a-panel-2);
+}
+.a-btn.danger {
+  background: transparent;
+  border: 1px solid #5a2b2b;
+  color: var(--a-bad);
+}
+.a-btn.danger:hover {
+  background: #2a1616;
+}
+.a-btn.sm {
+  padding: 6px 11px;
+  font-size: 13px;
+}
+.a-btn.block {
+  width: 100%;
+}
+
+.pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pill.good {
+  background: rgba(46, 204, 143, 0.15);
+  color: var(--a-good);
+}
+.pill.warn {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--a-warn);
+}
+.pill.bad {
+  background: rgba(255, 92, 92, 0.15);
+  color: var(--a-bad);
+}
+.pill.mute {
+  background: var(--a-panel-2);
+  color: var(--a-muted);
+}
+
+.a-alert {
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.a-alert.good {
+  background: rgba(46, 204, 143, 0.12);
+  border: 1px solid rgba(46, 204, 143, 0.3);
+}
+.a-alert.bad {
+  background: rgba(255, 92, 92, 0.12);
+  border: 1px solid rgba(255, 92, 92, 0.3);
+}
+.a-alert.info {
+  background: rgba(2, 102, 252, 0.1);
+  border: 1px solid rgba(2, 102, 252, 0.3);
+}
+
+.a-muted {
+  color: var(--a-muted);
+}
+.a-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.a-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--a-muted);
+}
+.admin-body code {
+  background: var(--a-panel-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--a-line);
+  }
+  .admin-nav {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .admin-nav .sep {
+    display: none;
+  }
+  .admin-nav a,
+  .admin-nav button {
+    width: auto;
+  }
+  .admin-main {
+    padding: 18px;
+  }
+}
