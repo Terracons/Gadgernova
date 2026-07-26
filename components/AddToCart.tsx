@@ -15,7 +15,7 @@ export default function AddToCart({
   title: string;
   priceDisplay: string;
 }) {
-  const { add } = useCart();
+  const { add, openDrawer } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -76,6 +76,7 @@ export default function AddToCart({
         className="btn block"
         onClick={() => {
           add(productId, quantity);
+          openDrawer();
           setAdded(true);
           setTimeout(() => setAdded(false), 1800);
         }}

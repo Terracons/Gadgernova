@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CartProvider } from "@/lib/cart-context";
 import Brand from "@/components/Brand";
-import CartBadge from "@/components/CartBadge";
+import CartLink from "@/components/CartLink";
+import CartDrawer from "@/components/CartDrawer";
 import { store } from "@/store.config";
 import "./globals.css";
 
@@ -65,10 +66,7 @@ export default function RootLayout({
                 <Link href="/shop?onSale=true" className="hide-sm">
                   Deals
                 </Link>
-                <Link href="/cart" className="cart-link">
-                  Cart
-                  <CartBadge />
-                </Link>
+                <CartLink />
               </nav>
             </div>
           </header>
@@ -140,6 +138,8 @@ export default function RootLayout({
               © {year} {store.name}. All rights reserved.
             </div>
           </footer>
+
+          <CartDrawer />
         </CartProvider>
       </body>
     </html>

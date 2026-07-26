@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ProductCardData } from "@/lib/products";
+import CardAddToCart from "@/components/CardAddToCart";
 
 export default function ProductCard({ product }: { product: ProductCardData }) {
   return (
@@ -52,6 +53,12 @@ export default function ProductCard({ product }: { product: ProductCardData }) {
             <span className="price-was">{product.compareAtPriceDisplay}</span>
           )}
         </div>
+
+        <CardAddToCart
+          productId={product.id}
+          inStock={product.inStock}
+          title={product.title}
+        />
       </div>
     </article>
   );

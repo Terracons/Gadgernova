@@ -38,6 +38,11 @@ interface CartValue {
   setQuantity: (productId: number, quantity: number) => void;
   remove: (productId: number) => void;
   clear: () => void;
+  // Slide-out mini-cart drawer state. Kept here so any "add to cart" button
+  // can open it and the floating cart / header can toggle it.
+  drawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
 }
 
 const CartContext = createContext<CartValue | null>(null);
@@ -62,6 +67,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [entries, setEntries] = useState<CartEntry[]>([]);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [ready, setReady] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
   // localStorage isn't available during SSR, so load after mount.
@@ -142,6 +148,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clear = useCallback(() => setEntries([]), []);
 
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+
   const count = useMemo(
     () => entries.reduce((sum, e) => sum + e.quantity, 0),
     [entries],
@@ -158,8 +167,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity,
       remove,
       clear,
+      drawerOpen,
+      openDrawer,
+      closeDrawer,
     }),
-    [entries, quote, pending, count, ready, add, setQuantity, remove, clear],
+    [
+      entries,
+      quote,
+      pending,
+      count,
+      ready,
+      add,
+      setQuantity,
+      remove,
+      clear,
+      drawerOpen,
+      openDrawer,
+      closeDrawer,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

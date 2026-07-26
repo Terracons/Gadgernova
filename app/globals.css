@@ -313,6 +313,219 @@ h2 {
   color: var(--muted);
   white-space: nowrap;
 }
+.card-add {
+  margin-top: 12px;
+}
+
+/* ── Floating cart button ───────────────────────────────────────── */
+.cart-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(16, 24, 40, 0.28);
+  transition: background 0.15s, transform 0.15s;
+}
+.cart-fab:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+.cart-fab-count {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: #fff;
+  color: var(--primary);
+  font-size: 12.5px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+/* ── Cart drawer ────────────────────────────────────────────────── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 25, 60, 0.45);
+  z-index: 70;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.drawer-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 410px;
+  max-width: 92vw;
+  background: #fff;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 34px rgba(16, 24, 40, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.drawer.open {
+  transform: translateX(0);
+}
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.drawer-close {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 4px;
+}
+.drawer-close:hover {
+  color: var(--text);
+}
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+.drawer-foot {
+  border-top: 1px solid var(--line);
+  padding: 16px 20px;
+  background: var(--surface);
+}
+
+/* Free-shipping progress */
+.ship-progress {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+.ship-bar {
+  margin-top: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.ship-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--success);
+  transition: width 0.3s ease;
+}
+
+/* Drawer line item */
+.d-line {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.d-line-media {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+.d-line-media img,
+.d-line-noimg {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  background: var(--surface);
+  border-radius: 8px;
+}
+.d-line-info {
+  flex: 1;
+  min-width: 0;
+}
+.d-line-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  display: block;
+}
+.d-line-title:hover {
+  color: var(--primary);
+}
+.d-line-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.qty button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #fff;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+.qty button:hover:not(:disabled) {
+  background: var(--surface);
+}
+.qty button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.qty span {
+  min-width: 30px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+.d-line-remove {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+.d-line-remove:hover {
+  color: var(--sale);
+}
+.d-line-total {
+  font-size: 14.5px;
+  white-space: nowrap;
+}
 
 /* ── Hero ───────────────────────────────────────────────────────── */
 .hero {
