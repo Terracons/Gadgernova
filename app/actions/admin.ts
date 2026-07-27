@@ -127,9 +127,15 @@ export async function saveProduct(
         data: { productId, url, storageKey: key, alt: title, position: position++ },
       });
     } catch (error) {
-      problems.push(
-        `${file.name}: ${error instanceof StorageError ? error.message : "upload failed"}`,
-      );
+      // Surface the real reason (Blob/S3/disk errors) instead of a generic
+      // "upload failed" — it's an admin-only page and the detail is diagnostic.
+      const reason =
+        error instanceof StorageError
+          ? error.message
+          : error instanceof Error
+            ? error.message
+            : "upload failed";
+      problems.push(`${file.name}: ${reason}`);
     }
   }
 

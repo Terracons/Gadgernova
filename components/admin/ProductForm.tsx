@@ -1,10 +1,54 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
 import { saveProduct, type ActionResult } from "@/app/actions/admin";
 import { deleteProductImage } from "@/app/actions/admin";
 import { store } from "@/store.config";
+
+/**
+ * Downscale + re-encode an image to WebP in the browser before it's uploaded.
+ *
+ * Uploads go through a server action, and Vercel caps a request body at ~4.5 MB
+ * regardless of the app's own limit — so a full-size phone/WhatsApp photo can
+ * fail the upload. Shrinking to <=1600px WebP here brings every image to a few
+ * hundred KB, well under the limit, and loads faster for shoppers too.
+ *
+ * On any failure (e.g. a HEIC the browser can't decode) the original file is
+ * used, so the server still validates and reports it clearly.
+ */
+const MAX_DIMENSION = 1600;
+
+async function compressImage(file: File): Promise<File> {
+  // GIFs (animation) and non-images pass through untouched.
+  if (!file.type.startsWith("image/") || file.type === "image/gif") return file;
+
+  const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+  let { width, height } = bitmap;
+  if (width > MAX_DIMENSION) {
+    height = Math.round((height * MAX_DIMENSION) / width);
+    width = MAX_DIMENSION;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    bitmap.close();
+    return file;
+  }
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/webp", 0.82),
+  );
+  if (!blob || blob.size >= file.size) return file; // keep original if no smaller
+
+  const base = file.name.replace(/\.[^.]+$/, "");
+  return new File([blob], `${base}.webp`, { type: "image/webp" });
+}
 
 export interface ProductFormData {
   id: number;
@@ -41,10 +85,38 @@ export default function ProductForm({
     saveProduct,
     null,
   );
+  const [compressing, setCompressing] = useState(false);
 
   // Prices are stored in kobo; the form works in naira.
   const naira = (kobo: number | null | undefined) =>
     kobo == null ? "" : (kobo / 100).toFixed(2);
+
+  // Compress selected images in-browser, then put them back on the input so the
+  // normal form submit sends the smaller files.
+  async function handleImagePick(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): Promise<void> {
+    const input = event.currentTarget;
+    const chosen = Array.from(input.files ?? []);
+    if (chosen.length === 0) return;
+
+    setCompressing(true);
+    try {
+      const transfer = new DataTransfer();
+      for (const file of chosen) {
+        let out = file;
+        try {
+          out = await compressImage(file);
+        } catch {
+          out = file; // couldn't decode — let the server validate/report it
+        }
+        transfer.items.add(out);
+      }
+      input.files = transfer.files;
+    } finally {
+      setCompressing(false);
+    }
+  }
 
   return (
     <>
@@ -309,9 +381,12 @@ export default function ProductForm({
                   type="file"
                   accept="image/*"
                   multiple
+                  onChange={handleImagePick}
                 />
                 <p className="a-muted" style={{ fontSize: 12, margin: "5px 0 0" }}>
-                  JPG, PNG, WebP or AVIF. Large files are resized automatically.
+                  {compressing
+                    ? "Optimizing images…"
+                    : "JPG, PNG, WebP or AVIF. Photos are optimized in your browser before upload."}
                 </p>
               </div>
             </div>
@@ -319,14 +394,16 @@ export default function ProductForm({
             <button
               className="a-btn block"
               type="submit"
-              disabled={pending}
+              disabled={pending || compressing}
               style={{ padding: 12 }}
             >
-              {pending
-                ? "Saving…"
-                : product
-                  ? "Save changes"
-                  : "Create product"}
+              {compressing
+                ? "Optimizing images…"
+                : pending
+                  ? "Saving…"
+                  : product
+                    ? "Save changes"
+                    : "Create product"}
             </button>
           </div>
         </div>
