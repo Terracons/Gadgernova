@@ -7,15 +7,17 @@ import path from "node:path";
 /**
  * Pluggable image storage.
  *
- *   S3-compatible (Cloudflare R2, Backblaze, AWS)  — required on Vercel
+ *   S3-compatible (Cloudflare R2, Backblaze, AWS)  — set the S3_* variables
+ *   Vercel Blob                                    — set BLOB_READ_WRITE_TOKEN
  *   Local disk                                     — fine on Hostinger/VPS
  *
- * Which one runs is decided by whether the S3_* variables are set, so the same
- * codebase deploys to both without edits.
+ * Which one runs is decided by which variables are set, so the same codebase
+ * deploys everywhere without edits. Priority: S3 → Vercel Blob → local disk.
  *
  * Vercel's filesystem is ephemeral: files written at runtime vanish on the next
- * deploy and aren't shared between instances. If you deploy to Vercel you MUST
- * configure R2 or another S3 bucket.
+ * deploy and aren't shared between instances. On Vercel you MUST use Vercel Blob
+ * (enable it in the Storage tab — it injects BLOB_READ_WRITE_TOKEN) or an S3
+ * bucket, or uploaded images will disappear.
  */
 
 const MAX_BYTES = 12 * 1024 * 1024; // 12 MB
@@ -62,8 +64,14 @@ function s3Configured(): boolean {
   );
 }
 
+function blobConfigured(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
 export function storageBackend(): string {
-  return s3Configured() ? "Cloudflare R2 / S3" : "local disk";
+  if (s3Configured()) return "Cloudflare R2 / S3";
+  if (blobConfigured()) return "Vercel Blob";
+  return "local disk";
 }
 
 // ── Validation and optimisation ──────────────────────────────────────
@@ -171,6 +179,26 @@ async function deleteFromS3(key: string): Promise<void> {
   );
 }
 
+// ── Vercel Blob ──────────────────────────────────────────────────────
+// The returned public URL doubles as the delete handle (Blob deletes by URL),
+// so it is stored as the image's storageKey rather than the object path.
+
+async function saveToBlob(data: Buffer, key: string): Promise<string> {
+  const { put } = await import("@vercel/blob");
+  const blob = await put(key, data, {
+    access: "public",
+    addRandomSuffix: false, // key already carries a UUID
+    contentType: CONTENT_TYPES[path.extname(key)] ?? "application/octet-stream",
+    cacheControlMaxAge: 31536000, // 1 year — contents are immutable
+  });
+  return blob.url;
+}
+
+async function deleteFromBlob(url: string): Promise<void> {
+  const { del } = await import("@vercel/blob");
+  await del(url);
+}
+
 // ── Local disk ───────────────────────────────────────────────────────
 
 const UPLOAD_ROOT = path.join(process.cwd(), "public", "uploads");
@@ -201,8 +229,13 @@ export async function saveImage(file: File): Promise<StoredImage> {
   const { data, ext } = await optimize(raw, detected);
   const key = buildKey(ext);
 
-  const url = s3Configured() ? await saveToS3(data, key) : await saveToDisk(data, key);
-  return { url, key };
+  if (s3Configured()) return { url: await saveToS3(data, key), key };
+  // Blob deletes by URL, so the URL is both the image url and its storage key.
+  if (blobConfigured()) {
+    const url = await saveToBlob(data, key);
+    return { url, key: url };
+  }
+  return { url: await saveToDisk(data, key), key };
 }
 
 /** Best-effort delete — a dangling object isn't worth failing a request over. */
@@ -210,6 +243,7 @@ export async function deleteImage(key: string | null | undefined): Promise<void>
   if (!key) return;
   try {
     if (s3Configured()) await deleteFromS3(key);
+    else if (blobConfigured()) await deleteFromBlob(key);
     else await deleteFromDisk(key);
   } catch {
     /* already gone, or storage unreachable */
