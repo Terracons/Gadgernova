@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   };
 
   return (
-    <div className="container section">
+    <div className="container section product-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

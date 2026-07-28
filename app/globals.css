@@ -609,6 +609,18 @@ h2 {
   cursor: pointer;
 }
 
+/* Product page — a bit more left/right breathing room than other pages. */
+.container.product-page {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+@media (max-width: 640px) {
+  .container.product-page {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
 /* ── Hero ───────────────────────────────────────────────────────── */
 .hero {
   background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
