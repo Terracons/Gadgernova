@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import AddToCart from "@/components/AddToCart";
 import ProductCard from "@/components/ProductCard";
+import ProductGallery from "@/components/ProductGallery";
 import { getProductBySlug } from "@/lib/products";
 import { toNaira } from "@/lib/money";
 import { store } from "@/store.config";
@@ -80,62 +81,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       </p>
 
       <div className="split wide-left">
-        <div>
-          <div
-            className="panel"
-            style={{ padding: 0, overflow: "hidden", aspectRatio: "4 / 3" }}
-          >
-            {product.images[0] ? (
-              <img
-                src={product.images[0].url}
-                alt={product.images[0].alt}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  padding: 16,
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  display: "grid",
-                  placeItems: "center",
-                  height: "100%",
-                  color: "var(--muted)",
-                }}
-              >
-                No image
-              </div>
-            )}
-          </div>
-
-          {product.images.length > 1 && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(78px, 1fr))",
-                gap: 10,
-                marginTop: 12,
-              }}
-            >
-              {product.images.slice(1).map((image, index) => (
-                <img
-                  key={index}
-                  src={image.url}
-                  alt={image.alt}
-                  loading="lazy"
-                  style={{
-                    aspectRatio: "1",
-                    objectFit: "cover",
-                    borderRadius: 8,
-                    border: "1px solid var(--line)",
-                  }}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        <ProductGallery images={product.images} title={product.title} />
 
         <div className="stack">
           {product.brand && <div className="card-brand">{product.brand}</div>}

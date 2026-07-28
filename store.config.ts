@@ -35,18 +35,18 @@ export const store = {
 
   // ── Contact ───────────────────────────────────────────────────
   contact: {
-    email: "support@gadgetnova.com",
+    email: "novagadget9@gmail.com",
     // International format, no spaces — used for WhatsApp links.
-    whatsapp: "2347061989638",
-    phoneDisplay: "+234 706 198 9638",
+    whatsapp: "2348152546360",
+    phoneDisplay: "+234 815 254 6360",
     address: "Lagos, Nigeria",
   },
 
   social: {
     facebook: "",
-    instagram: "",
+    instagram: "https://www.instagram.com/gadgetnova__store?igsh=MTlwZHNiM3N0c2Fibw==",
     twitter: "",
-    tiktok: "",
+    tiktok: "https://www.tiktok.com/@gadgetnova_store",
   },
 
   // ── Money ─────────────────────────────────────────────────────
