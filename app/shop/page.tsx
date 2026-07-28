@@ -55,7 +55,7 @@ export default async function ShopPage({
         : "All products";
 
   return (
-    <div className="container section">
+    <div className="container section shop-page">
       <h1>{heading}</h1>
       {result && (
         <p className="muted" style={{ marginTop: 0 }}>

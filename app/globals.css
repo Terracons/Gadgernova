@@ -609,13 +609,15 @@ h2 {
   cursor: pointer;
 }
 
-/* Product page — a bit more left/right breathing room than other pages. */
-.container.product-page {
+/* Product & shop pages — a bit more left/right breathing room. */
+.container.product-page,
+.container.shop-page {
   padding-left: 32px;
   padding-right: 32px;
 }
 @media (max-width: 640px) {
-  .container.product-page {
+  .container.product-page,
+  .container.shop-page {
     padding-left: 22px;
     padding-right: 22px;
   }
