@@ -15,10 +15,10 @@ export const store = {
   // ── Identity ──────────────────────────────────────────────────
   name: "GadgetNova",
   // Shown next to the name; also used in the footer.
-  tagline: "Phones | Laptops | Gadgets",
+  tagline: "Phones, laptops & gadgets you can trust",
   // Used for page titles and SEO.
   description:
-    "Quality phones, laptops and gadgets at honest prices. Certified devices with nationwide delivery and warranty.",
+    "Quality phones, laptops and gadgets at honest prices — every device tested, cleaned up and backed by warranty, then delivered to your door anywhere in Nigeria. Real people, real support, no wahala.",
 
   // Put your logo in /public and reference it here. Leave "" for text only.
   logo: "/logo.jpg",
@@ -66,11 +66,11 @@ export const store = {
 
   // ── Storefront copy ───────────────────────────────────────────
   copy: {
-    announcement: "Free nationwide delivery on orders over ₦200,000",
-    heroHeading: "Quality tech, honest prices.",
+    announcement: "Free delivery nationwide on orders over ₦200,000 — our treat 🎉",
+    heroHeading: "Quality tech. Honest prices. Real people.",
     heroSubheading:
-      "Certified devices — tested, warrantied, and delivered anywhere in Nigeria.",
-    warranty: "30-day limited warranty",
+      "Every device is tested, cleaned up and backed by warranty, then delivered to your door anywhere in Nigeria. Got a question first? We're one WhatsApp message away.",
+    warranty: "Every device backed by a 30-day warranty",
   },
 
   // ── Behaviour ─────────────────────────────────────────────────
