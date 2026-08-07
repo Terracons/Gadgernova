@@ -80,6 +80,10 @@ export default function RootLayout({
                   {store.name}
                 </div>
                 <p className="tag">{store.tagline}</p>
+                <p className="muted" style={{ fontSize: 13.5, marginTop: 10, maxWidth: 260 }}>
+                  Real devices, honest prices, and a real person on the other end
+                  of every message. Thanks for shopping with us. 💙
+                </p>
               </div>
 
               <div>
