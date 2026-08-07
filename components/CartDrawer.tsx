@@ -113,7 +113,7 @@ export default function CartDrawer() {
           <div className="drawer-body">
             <div className="empty-state" style={{ padding: "48px 8px" }}>
               <p className="muted">
-                {loading ? "Updating…" : "Your cart is empty."}
+                {loading ? "Updating…" : "Nothing here yet — let's change that."}
               </p>
               <button type="button" className="btn ghost" onClick={closeDrawer}>
                 Continue shopping
@@ -127,16 +127,16 @@ export default function CartDrawer() {
               <div className="ship-progress">
                 {remaining > 0 ? (
                   <span>
-                    Spend{" "}
+                    You&apos;re{" "}
                     <strong>
                       {store.currency.symbol}
                       {(remaining / 100).toLocaleString()}
                     </strong>{" "}
-                    more for free delivery
+                    away from free delivery
                   </span>
                 ) : (
                   <span style={{ color: "var(--success)", fontWeight: 600 }}>
-                    You&apos;ve unlocked free delivery ✓
+                    Nice — you&apos;ve unlocked free delivery ✓
                   </span>
                 )}
                 <div className="ship-bar">
