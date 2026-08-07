@@ -25,8 +25,10 @@ export default function CheckoutPage() {
     return (
       <div className="container section">
         <div className="empty-state">
-          <h2>Nothing to check out</h2>
-          <p className="muted">Your cart is empty.</p>
+          <h2>Nothing to check out yet</h2>
+          <p className="muted">
+            Your cart&apos;s empty — let&apos;s find you something first.
+          </p>
           <Link href="/shop" className="btn">
             Browse products
           </Link>
@@ -71,7 +73,7 @@ export default function CheckoutPage() {
       setSubmitting(false);
     } catch {
       setError(
-        "We couldn't reach the store. Check your connection and try again.",
+        "Hmm, we couldn't reach the store. Check your connection and give it another go.",
       );
       setSubmitting(false);
     }
@@ -158,7 +160,7 @@ export default function CheckoutPage() {
                 id="note"
                 name="note"
                 rows={2}
-                placeholder="Anything we should know about delivery"
+                placeholder="A landmark, gate colour, or the best time to call…"
               />
             </div>
           </div>
@@ -222,8 +224,8 @@ export default function CheckoutPage() {
               className="muted"
               style={{ fontSize: 13, marginTop: 12, marginBottom: 0 }}
             >
-              You&apos;ll be redirected to Paystack to pay securely by card,
-              bank transfer or USSD. We never see your card details.
+              You&apos;ll pay securely with Paystack — card, bank transfer or
+              USSD. Your card details never touch our hands.
             </p>
 
             {store.options.enableWhatsAppOrder && (
