@@ -31,13 +31,13 @@ export default async function OrderPage({ params }: { params: Params }) {
       <div className={`notice ${paid ? "good" : "warn"}`}>
         {paid ? (
           <>
-            <strong>Payment confirmed.</strong> Thank you — we&apos;re preparing
-            your order.
+            <strong>Payment confirmed — thank you! 🎉</strong> We&apos;re already
+            getting your order ready.
           </>
         ) : (
           <>
-            <strong>Order received.</strong> We haven&apos;t confirmed payment
-            yet. If you&apos;ve just paid, refresh in a moment.
+            <strong>Order received!</strong> We haven&apos;t confirmed your
+            payment yet. If you&apos;ve just paid, give it a moment and refresh.
           </>
         )}
       </div>
@@ -79,8 +79,8 @@ export default async function OrderPage({ params }: { params: Params }) {
       </div>
 
       <p className="muted" style={{ fontSize: 14, marginTop: 18 }}>
-        Keep your reference <strong>{order.reference}</strong> handy — quote it
-        if you contact us about this order.
+        Hold onto your reference <strong>{order.reference}</strong> — just quote
+        it whenever you reach out and we&apos;ll pick up right where you are.
       </p>
 
       <div className="row">
