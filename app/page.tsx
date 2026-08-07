@@ -36,8 +36,8 @@ export default async function HomePage() {
       {down && (
         <div className="container" style={{ paddingTop: 24 }}>
           <div className="notice warn">
-            We&apos;re having trouble loading products right now. Please refresh
-            in a moment.
+            Sorry — we&apos;re having a moment loading products. Give it a quick
+            refresh and we&apos;ll be right back.
           </div>
         </div>
       )}
@@ -102,9 +102,10 @@ export default async function HomePage() {
       {!down && latest?.items.length === 0 && (
         <div className="container">
           <div className="empty-state">
-            <h2>No products yet</h2>
+            <h2>The shelves are empty — for now</h2>
             <p className="muted">
-              Sign in to the admin panel and add your first product.
+              Sign in to the admin panel and add your first product to get
+              things rolling.
             </p>
             <Link href="/admin" className="btn">
               Go to admin
