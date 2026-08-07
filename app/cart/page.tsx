@@ -20,8 +20,10 @@ export default function CartPage() {
     return (
       <div className="container section">
         <div className="empty-state">
-          <h2>Your cart is empty</h2>
-          <p className="muted">Browse the store and add something you like.</p>
+          <h2>Your cart&apos;s feeling light</h2>
+          <p className="muted">
+            Let&apos;s fix that — take a look around and add something you love.
+          </p>
           <Link href="/shop" className="btn">
             Start shopping
           </Link>
@@ -35,7 +37,9 @@ export default function CartPage() {
       <div className="container section">
         <h1>Your cart</h1>
         <p className="muted">
-          {loading ? "Updating…" : "Couldn't load your cart. Please refresh."}
+          {loading
+            ? "Updating…"
+            : "We couldn't load your cart just now — a quick refresh should sort it out."}
         </p>
       </div>
     );
@@ -172,8 +176,8 @@ export default function CartPage() {
 
           {quote.shipping > 0 && toFreeShipping > 0 && (
             <p className="muted" style={{ fontSize: 13.5 }}>
-              Spend {store.currency.symbol}
-              {(toFreeShipping / 100).toLocaleString()} more for free delivery.
+              You&apos;re {store.currency.symbol}
+              {(toFreeShipping / 100).toLocaleString()} away from free delivery.
             </p>
           )}
 
