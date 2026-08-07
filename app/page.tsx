@@ -24,10 +24,10 @@ export default async function HomePage() {
           <p>{store.copy.heroSubheading}</p>
           <div className="row">
             <Link href="/shop" className="btn">
-              Shop all products
+              Start shopping
             </Link>
             <Link href="/shop?onSale=true" className="btn ghost">
-              View deals
+              See today&apos;s deals
             </Link>
           </div>
         </div>
@@ -63,13 +63,13 @@ export default async function HomePage() {
           <div className="container">
             <div className="section-head">
               <div>
-                <h2>Featured</h2>
+                <h2>Handpicked for you</h2>
                 <p className="muted" style={{ margin: 0, fontSize: 14.5 }}>
-                  Hand-picked, top-condition stock
+                  Devices we&apos;ve checked over and would happily use ourselves
                 </p>
               </div>
               <Link href="/shop?featured=true" className="btn ghost sm">
-                View all
+                See all
               </Link>
             </div>
             <div className="grid">
@@ -87,7 +87,7 @@ export default async function HomePage() {
             <div className="section-head">
               <h2>Just arrived</h2>
               <Link href="/shop" className="btn ghost sm">
-                View all
+                See all
               </Link>
             </div>
             <div className="grid">
