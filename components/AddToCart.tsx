@@ -21,7 +21,7 @@ export default function AddToCart({
 
   const whatsappUrl = store.options.enableWhatsAppOrder
     ? `https://wa.me/${store.contact.whatsapp}?text=${encodeURIComponent(
-        `Hello ${store.name}, I'd like to order:\n\n${title}\n${priceDisplay}\n\nIs it available?`,
+        `Hi ${store.name}! 👋 I'd love to order this:\n\n${title}\n${priceDisplay}\n\nIs it still available?`,
       )}`
     : null;
 
@@ -38,7 +38,7 @@ export default function AddToCart({
             rel="noopener noreferrer"
             className="btn whatsapp block"
           >
-            Ask about availability on WhatsApp
+            Ask us about it on WhatsApp
           </a>
         )}
       </div>

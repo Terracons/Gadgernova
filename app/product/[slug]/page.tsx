@@ -154,10 +154,9 @@ export default async function ProductPage({ params }: { params: Params }) {
           )}
 
           <p className="muted" style={{ fontSize: 13.5, margin: 0 }}>
-            Free delivery on orders over{" "}
-            {store.currency.symbol}
-            {store.shipping.freeAbove.toLocaleString()} ·{" "}
-            {store.copy.warranty}
+            Free delivery on orders over {store.currency.symbol}
+            {store.shipping.freeAbove.toLocaleString()} · {store.copy.warranty}.
+            Still deciding? We&apos;re a WhatsApp message away — happy to help.
           </p>
         </div>
       </div>
